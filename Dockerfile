@@ -1,5 +1,25 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11-slim
+# Use the native FreeBSD 15.0 base image
+FROM ghcr.io/freebsd/freebsd-toolchain:15.snap
+
+# 1. Bootstrap pkg and install Python + build essentials natively
+# We include setuptools, wheel, and cryptography via pkg because they 
+# are usually the ones that cause pip to hang during 'backend dependencies' compilation.
+RUN env ASSUME_ALWAYS_YES=yes IGNORE_OSVERSION=yes pkg bootstrap && \
+    env IGNORE_OSVERSION=yes pkg update && \
+    env IGNORE_OSVERSION=yes pkg install -y \
+    python311 \
+    py311-pip \
+    py311-setuptools \
+    py311-wheel \
+    py311-cryptography \
+    py311-sqlite3 \
+    py311-httpx \
+    py311-beautifulsoup \
+    py311-pydantic2 \
+    py311-tzdata \
+    py311-python-dateutil \
+    py311-filetype \
+    && pkg clean -y
 
 # Set the working directory in the container
 WORKDIR /app
@@ -8,16 +28,17 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN env IGNORE_OSVERSION=yes python3.11 -m pip install --no-cache-dir -r requirements.txt
 
 # Copy the local code to the container
 COPY mcp_server.py .
 
 # Define environment variables with default values
 # Core configuration
-ENV SEARXNG_ENGINE_API_BASE_URL="http://host.docker.internal:8080/search"
-ENV DESIRED_TIMEZONE="America/New_York"
+ENV SEARXNG_ENGINE_API_BASE_URL="http://localhost:8080/search"
+ENV DESIRED_TIMEZONE="Europe/London"
 ENV ODS_CONFIG_PATH="/config/ods_config.json"
+ENV PYTHONUNBUFFERED=1
 
 # Search results configuration
 ENV IGNORED_WEBSITES=""
@@ -43,4 +64,4 @@ ENV RATE_LIMIT_REQUESTS_PER_MINUTE="10"
 ENV RATE_LIMIT_TIMEOUT_SECONDS="60"
 
 # Run mcp_server.py when the container launches
-CMD ["python", "mcp_server.py"]
+CMD ["/usr/local/bin/python3.11", "mcp_server.py"]

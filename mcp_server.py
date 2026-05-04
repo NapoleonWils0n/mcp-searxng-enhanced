@@ -24,8 +24,6 @@ from dateutil import parser as date_parser
 from cachetools import TTLCache
 from zoneinfo import ZoneInfo
 import filetype
-import pymupdf
-import pymupdf4llm
 
 # --- Custom Exceptions ---
 class MCPServerError(Exception):
@@ -255,15 +253,11 @@ class HelperFunctions:
 
             if kind is not None and kind.mime == "application/pdf":
                 # Process PDF
-                doc = pymupdf.open(stream=raw_content, filetype="pdf")
-                md_text = pymupdf4llm.to_markdown(doc)
-    
-                content = md_text
-                truncated_content = HelperFunctions.truncate_to_n_words(content, valves.PAGE_CONTENT_WORDS_LIMIT)
-                excerpt = HelperFunctions.generate_excerpt(content)
-
-                title = "A PDF document converted to Markdown"
+                title = "PDF Document (Skipped)"
                 soup = None
+                content = "PDF processing is currently disabled."
+                truncated_content = content
+                excerpt = "PDF detected."
             else:
                 # Assume HTML for now
                 soup = BeautifulSoup(html_content, "html.parser")
@@ -748,7 +742,6 @@ class Tools:
             response_site.raise_for_status()
             html_content = response_site.text
 
-            #TODO: Refactor this into a separate function in order no to duplicate code used in search_web
             raw_content = response_site.content
 
             # We only need a couple of initial bytes, not the whole file for MIME type guess
@@ -756,15 +749,12 @@ class Tools:
 
             if kind is not None and kind.mime == "application/pdf":
                 # Process PDF
-                doc = pymupdf.open(stream=raw_content, filetype="pdf")
-                md_text = pymupdf4llm.to_markdown(doc)
-    
-                content_site = md_text
-                truncated_content = HelperFunctions.truncate_to_n_words(content_site, self.valves.PAGE_CONTENT_WORDS_LIMIT)
-                excerpt = HelperFunctions.generate_excerpt(content_site)
-
-                page_title = "A PDF document converted to Markdown"
+                # Removed PDF logic entirely
+                page_title = "PDF Document"
                 soup = None
+                content_site = "PDF content not extracted."
+                truncated_content = content_site
+                excerpt = "PDF detected."
             else:
                 soup = BeautifulSoup(html_content, "html.parser")
                 page_title_tag = soup.find('title')
@@ -901,7 +891,7 @@ async def main():
                     "capabilities": {
                         "tools": {
                             "search_web": {
-                                "description": "Search the web for various categories (general, images, videos, files, map, social media, news, it, science). Scrapes text for web categories, returns specific data for others. Provides citations. Allows optional filtering. Is able to read PDF files and convert to Markdown.",
+                                "description": "Search the web for various categories (general, images, videos, files, map, social media, news, it, science). Scrapes text for web categories, returns specific data for others. Provides citations. Allows optional filtering. Processes HTML content and skips non-HTML documents.",
                                 "inputSchema": {
                                     "type": "object",
                                     "properties": {
@@ -915,7 +905,7 @@ async def main():
                                 },
                             },
                             "get_website": {
-                                "description": "Scrape content from web pages (using Trafilatura, converting Reddit to old.reddit). Caches results and provides citations. Is able to read PDF files and convert these to Markdown.",
+                                "description": "Scrape content from web pages (using Trafilatura, converting Reddit to old.reddit). Caches results and provides citations.",
                                 "inputSchema": {
                                     "type": "object",
                                     "properties": {
@@ -936,7 +926,7 @@ async def main():
                     "tools": [
                         {
                             "name": "search_web",
-                            "description": "Search the web for various categories (general, images, videos, files, map, social media, news, it, science). Scrapes text for web categories, returns specific data for others. Provides citations. Allows optional filtering. Is able to read PDF files and convert to Markdown.",
+                            "description": "Search the web for various categories (general, images, videos, files, map, social media, news, it, science). Scrapes text for web categories, returns specific data for others. Provides citations. Allows optional filtering.",
                             "inputSchema": {
                                 "type": "object",
                                 "properties": {
@@ -951,7 +941,7 @@ async def main():
                         },
                         {
                             "name": "get_website",
-                            "description": "Scrape content from web pages (using Trafilatura, converting Reddit to old.reddit). Caches results and provides citations. Is able to read PDF files and convert these to Markdown.",
+                            "description": "Scrape content from web pages (using Trafilatura, converting Reddit to old.reddit). Caches results and provides citations.",
                             "inputSchema": {
                                 "type": "object",
                                 "properties": {
