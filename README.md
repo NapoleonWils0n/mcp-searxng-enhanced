@@ -316,22 +316,22 @@ Using pkg packages instead of pip except for trafilatura and cachetools
 
 Removed pdf support to reduce build time
 
-### Build mcp-searxng-enhanced
+### Build 
 
 Download the git repository
 
-    ```bash
+```bash
 git clone https://github.com/NapoleonWils0n/mcp-searxng-enhanced.git
-    ```
+```
 
 Change directory into the git repository
 
-    ```bash
+```bash
 cd mcp-searxng-enhanced
-    ```
+```
 
 Build mcp-searxng-enhanced
 
-    ```bash
+```bash
 doas podman build --network host -t mcp-searxng-enhanced:local .
-    ```
+```
