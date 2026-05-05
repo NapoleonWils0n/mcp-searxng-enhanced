@@ -1,7 +1,7 @@
 [![MseeP.ai Security Assessment Badge](https://mseep.net/pr/overtlids-mcp-searxng-enhanced-badge.png)](https://mseep.ai/app/overtlids-mcp-searxng-enhanced)
 
 # MCP SearXNG Enhanced Server
-
+    
 A Model Context Protocol (MCP) server for category-aware web search, website scraping, and date/time tools. Designed for seamless integration with SearXNG and modern MCP clients.
 
 ## Features
@@ -315,6 +315,10 @@ Freebsd 15 image
 Using pkg packages instead of pip except for trafilatura and cachetools
 
 Removed pdf support to reduce build time
+
+### Freebsd podman install
+
+[Freebsd podman install](https://github.com/NapoleonWils0n/cerberus/blob/master/freebsd/podman-freebsd.org)
 
 ### Build 
 
