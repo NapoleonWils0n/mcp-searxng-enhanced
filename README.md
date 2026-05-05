@@ -4,6 +4,10 @@
     
 A Model Context Protocol (MCP) server for category-aware web search, website scraping, and date/time tools. Designed for seamless integration with SearXNG and modern MCP clients.
 
+Freebsd fork of mcp-searxng-enhanced
+
+[FreeBSD install](#Freebsd)
+
 ## Features
 
 - 🔍 SearXNG-powered web search with category support (general, images, videos, files, map, social media)
