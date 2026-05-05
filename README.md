@@ -306,3 +306,32 @@ Inspired by:
 ## License
 
 MIT License © 2025 OvertliDS
+
+## Freebsd
+### Changelog
+
+Freebsd 15 image
+
+Using pkg packages instead of pip except for trafilatura and cachetools
+
+Removed pdf support to reduce build time
+
+### Build mcp-searxng-enhanced
+
+Download the git repository
+
+    ```bash
+git clone https://github.com/NapoleonWils0n/mcp-searxng-enhanced.git
+    ```
+
+Change directory into the git repository
+
+    ```bash
+cd mcp-searxng-enhanced
+    ```
+
+Build mcp-searxng-enhanced
+
+    ```bash
+doas podman build --network host -t mcp-searxng-enhanced:local .
+    ```
