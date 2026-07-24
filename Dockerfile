@@ -28,7 +28,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
-RUN env IGNORE_OSVERSION=yes python3.11 -m pip install --no-cache-dir -r requirements.txt
+RUN env IGNORE_OSVERSION=yes python3.12 -m pip install --no-cache-dir -r requirements.txt
 
 # Copy the local code to the container
 COPY mcp_server.py .
@@ -64,4 +64,4 @@ ENV RATE_LIMIT_REQUESTS_PER_MINUTE="10"
 ENV RATE_LIMIT_TIMEOUT_SECONDS="60"
 
 # Run mcp_server.py when the container launches
-CMD ["/usr/local/bin/python3.11", "mcp_server.py"]
+CMD ["/usr/local/bin/python3.12", "mcp_server.py"]
