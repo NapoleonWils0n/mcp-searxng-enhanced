@@ -7,18 +7,18 @@ FROM ghcr.io/freebsd/freebsd-toolchain:15.snap
 RUN env ASSUME_ALWAYS_YES=yes IGNORE_OSVERSION=yes pkg bootstrap && \
     env IGNORE_OSVERSION=yes pkg update && \
     env IGNORE_OSVERSION=yes pkg install -y \
-    python311 \
-    py311-pip \
-    py311-setuptools \
-    py311-wheel \
-    py311-cryptography \
-    py311-sqlite3 \
-    py311-httpx \
-    py311-beautifulsoup \
-    py311-pydantic2 \
-    py311-tzdata \
-    py311-python-dateutil \
-    py311-filetype \
+    python312 \
+    py312-pip \
+    py312-setuptools \
+    py312-wheel \
+    py312-cryptography \
+    py312-sqlite3 \
+    py312-httpx \
+    py312-beautifulsoup \
+    py312-pydantic2 \
+    py312-tzdata \
+    py312-python-dateutil \
+    py312-filetype \
     && pkg clean -y
 
 # Set the working directory in the container
