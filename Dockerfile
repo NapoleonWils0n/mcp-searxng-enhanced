@@ -18,6 +18,9 @@ RUN env ASSUME_ALWAYS_YES=yes IGNORE_OSVERSION=yes pkg bootstrap && \
     py312-tzdata \
     py312-python-dateutil \
     py312-filetype \
+    py312-lxml \
+    libxml2 \
+    libxslt \
     && pkg clean -y
 
 # Set the working directory in the container
