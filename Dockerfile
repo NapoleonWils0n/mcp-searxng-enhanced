@@ -15,6 +15,7 @@ RUN env ASSUME_ALWAYS_YES=yes IGNORE_OSVERSION=yes pkg bootstrap && \
     py312-sqlite3 \
     py312-httpx \
     py312-beautifulsoup \
+    www/py-beautifulsoup \
     py312-pydantic2 \
     py312-tzdata \
     py312-python-dateutil \
